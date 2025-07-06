@@ -23,6 +23,7 @@ export const applicationStatusEnum = pgEnum("application_status_enum", [
 
 export const usersTable = pgTable("users_table", {
   id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   bio: text("bio"),

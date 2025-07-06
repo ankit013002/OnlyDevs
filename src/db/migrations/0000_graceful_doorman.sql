@@ -24,10 +24,12 @@ CREATE TABLE "postings_table" (
 --> statement-breakpoint
 CREATE TABLE "users_table" (
 	"id" serial PRIMARY KEY NOT NULL,
+	"username" text NOT NULL,
 	"name" text NOT NULL,
 	"email" text NOT NULL,
 	"bio" text,
 	"tech_tags" jsonb DEFAULT '[]' NOT NULL,
+	CONSTRAINT "users_table_username_unique" UNIQUE("username"),
 	CONSTRAINT "users_table_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint

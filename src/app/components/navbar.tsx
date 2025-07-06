@@ -10,11 +10,8 @@ import { KindeProvider, useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect } from "react";
 
 export default function Navbar() {
-  const { isLoading, isAuthenticated, user } = useKindeAuth();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const { isAuthenticated, getUser } = useKindeAuth();
+  const user = getUser();
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow">
@@ -47,9 +44,41 @@ export default function Navbar() {
             </Link>
 
             {isAuthenticated ? (
-              <LogoutLink className="px-3 py-2 text-sm font-medium bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                Log Out
-              </LogoutLink>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                >
+                  <li>
+                    <Link
+                      href={`/profile/${user?.username}`}
+                      className="justify-between"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/settings">Settings</Link>
+                  </li>
+                  <li>
+                    <LogoutLink className="px-3 py-2 text-sm font-medium bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                      Log Out
+                    </LogoutLink>
+                  </li>
+                </ul>
+              </div>
             ) : (
               <div>
                 <LoginLink

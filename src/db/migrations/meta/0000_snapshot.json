@@ -1,5 +1,5 @@
 {
-  "id": "2a6015f7-5b12-441c-b115-91a52f8792d7",
+  "id": "6cde411b-5294-409c-a395-80b2bd7a7f12",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -185,6 +185,12 @@
           "primaryKey": true,
           "notNull": true
         },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -215,6 +221,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "users_table_username_unique": {
+          "name": "users_table_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
+          ]
+        },
         "users_table_email_unique": {
           "name": "users_table_email_unique",
           "nullsNotDistinct": false,

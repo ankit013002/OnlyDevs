@@ -1,14 +1,11 @@
 "use server";
 
 import postings from "@/db/postings";
-import {
-  getKindeServerSession,
-  LoginLink,
-  RegisterLink,
-} from "@kinde-oss/kinde-auth-nextjs/server";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
 import DevPost from "./components/devPost";
 import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
+import insertUserIntoDB from "@/db/insertUserIntoDB";
 
 // Define mock data type matching your schema
 interface Posting {
@@ -61,10 +58,11 @@ const mockPostings: Posting[] = [
 
 export default async function Home() {
   const data = await postings();
-  const loggedIn = false;
   const { isAuthenticated } = getKindeServerSession();
-  const isUserAuthenticated = await isAuthenticated();
-  console.log(isUserAuthenticated);
+
+  if (await isAuthenticated()) {
+    await insertUserIntoDB();
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">

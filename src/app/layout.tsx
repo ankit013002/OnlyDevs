@@ -35,6 +35,8 @@ export default function RootLayout({
           </header>
           {children}
         </Providers>
+
+        <footer className="justify-center flex w-full">Copyright @2025</footer>
       </body>
     </html>
   );
