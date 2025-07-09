@@ -10,7 +10,6 @@ import {
   postingStatusEnum,
 } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import retrieveUserFromKinde from "@/db/retrieveUserFromKinde";
 
 interface PageProps {
