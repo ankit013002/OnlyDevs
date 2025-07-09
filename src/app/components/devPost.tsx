@@ -1,7 +1,7 @@
 "use client";
 
 import { SelectPosting } from "@/db/schema";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 import React from "react";
 
 interface PostingsListProps {
@@ -9,10 +9,7 @@ interface PostingsListProps {
 }
 
 async function handleRedirect(postId: number) {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-
-  console.log(user);
+  redirect(`post/${postId}`);
 }
 
 const DevPost = ({ post }: PostingsListProps) => {

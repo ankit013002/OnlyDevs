@@ -6,15 +6,11 @@ export default async function insertUserIntoDB() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  console.log(user);
-
   if (!user || user.email == null || user.username == null) {
     return;
   }
 
   const name = `${user.given_name ?? ""} ${user.family_name ?? ""}`.trim();
-
-  console.log(user);
 
   const response = await db
     .insert(usersTable)
