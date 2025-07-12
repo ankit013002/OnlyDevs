@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { db } from "./database";
 import {
   applicationsTable,
-  postingsTable,
   SelectApplication,
   SelectUser,
   usersTable,

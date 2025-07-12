@@ -72,18 +72,20 @@ const page = async ({ params }: PostPropsType) => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <span className="font-semibold">Tech Tags:</span>{" "}
-          {postData.techTags.map((tag, i) => (
-            <span
-              key={i}
-              className="inline-block bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded mr-2"
-            >
-              {tag}
-            </span>
-          ))}
+        <div className="mb-4 flex flex-col md:flex-row md:gap-x-2 md:items-center">
+          <div className="font-semibold">Tech Tags:</div>{" "}
+          <div>
+            {postData.techTags.map((tag, i) => (
+              <span
+                key={i}
+                className="inline-block bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded mr-2"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="px-6">
+        <div className="">
           {userAlreadyApplied ? (
             <p className="italic text-gray-500">You have already applied.</p>
           ) : (
@@ -137,16 +139,18 @@ const page = async ({ params }: PostPropsType) => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <span className="font-semibold">Tech Tags:</span>{" "}
-          {postData.techTags.map((tag, i) => (
-            <span
-              key={i}
-              className="inline-block bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded mr-2"
-            >
-              {tag}
-            </span>
-          ))}
+        <div className="mb-4 flex flex-col md:flex-row md:gap-x-2 md:items-center">
+          <div className="font-semibold">Tech Tags:</div>{" "}
+          <div>
+            {postData.techTags.map((tag, i) => (
+              <span
+                key={i}
+                className="inline-block bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded mr-2"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       <div className="max-w-5xl mx-auto px-6 py-8">

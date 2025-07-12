@@ -3,17 +3,18 @@
 import { ApplicationWithUser } from "@/db/retrieveApplicationsByPostId";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { SelectUser } from "@/db/schema";
+import { applicationStatusEnum, SelectUser } from "@/db/schema";
 import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { FaDiscord, FaPhone, FaTwitter } from "react-icons/fa";
 import { FiLink } from "react-icons/fi";
 import { SiLinkedin } from "react-icons/si";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
-type Contact = { type: string; link: string };
+export type ContactType = { type: string; link: string };
 
 type ContactOption = {
-  type: Contact["type"];
+  type: ContactType["type"];
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
 };
 
@@ -40,6 +41,20 @@ const ApplicationCard = ({
 
   const handleAccept = async () => {
     console.log("Accept clicked for", application.applications_table.id);
+    const res = await fetch("/api/applications/accept", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postId: application.applications_table.postId,
+        applicationId: application.applications_table.id,
+        status: applicationStatusEnum.enumValues[1],
+        contactMethod: modeOfContact,
+        postUser: currUser,
+      }),
+    });
+    console.log(res);
+    const json = await res.json();
+    if (!json.success) console.error(json.error);
     setExtendApp(false);
   };
 
@@ -95,7 +110,7 @@ const ApplicationCard = ({
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-1 p-2 min-w-36 shadow-sm  w-fit"
+                className="dropdown-content menu bg-base-100 rounded-box z-1 p-2 shadow-sm  w-fit"
               >
                 {currUser.contact.map((contact, index) => {
                   const icon = CONTACT_OPTIONS.find(
@@ -115,7 +130,7 @@ const ApplicationCard = ({
                 })}
                 <li>
                   <Link className="btn btn-ghost" href={"/profileSettings"}>
-                    Add Contact
+                    <IoIosAddCircleOutline className="h-5 w-5" />
                   </Link>
                 </li>
               </ul>

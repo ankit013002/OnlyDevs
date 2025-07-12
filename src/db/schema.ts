@@ -21,6 +21,9 @@ export const applicationStatusEnum = pgEnum("application_status_enum", [
   "declined",
 ]);
 
+export type ApplicationStatus =
+  (typeof applicationStatusEnum.enumValues)[number];
+
 export const usersTable = pgTable("users_table", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
@@ -74,6 +77,22 @@ export const applicationsTable = pgTable("applications_table", {
   appliedAt: timestamp("applied_at").notNull().defaultNow(),
 });
 
+export const applicationStatusTable = pgTable("application_status_table", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id")
+    .notNull()
+    .references(() => postingsTable.id, { onDelete: "cascade" }),
+  applicationId: integer("application_id")
+    .notNull()
+    .references(() => applicationsTable.id, { onDelete: "cascade" }),
+  status: applicationStatusEnum("status").notNull(),
+  changedAt: timestamp("changed_at").notNull().defaultNow(),
+  contactMethod: jsonb("contact_method").$type<{
+    type: string;
+    link: string;
+  }>(),
+});
+
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 
@@ -82,3 +101,8 @@ export type SelectPosting = typeof postingsTable.$inferSelect;
 
 export type InsertApplication = typeof applicationsTable.$inferInsert;
 export type SelectApplication = typeof applicationsTable.$inferSelect;
+
+export type InsertApplicationStatus =
+  typeof applicationStatusTable.$inferInsert;
+export type SelectApplicationStatus =
+  typeof applicationStatusTable.$inferSelect;
