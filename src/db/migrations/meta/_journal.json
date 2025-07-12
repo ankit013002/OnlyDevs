@@ -8,6 +8,20 @@
       "when": 1751815148146,
       "tag": "0000_graceful_doorman",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1752288479785,
+      "tag": "0001_add_roster",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1752288962100,
+      "tag": "0002_add_contact",
+      "breakpoints": true
     }
   ]
 }

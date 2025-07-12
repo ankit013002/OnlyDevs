@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-
+import ContactFields from "@/app/components/contactFields";
 import { db } from "@/db/database";
 import { usersTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -13,6 +13,16 @@ async function updateProfile(formData: FormData) {
   const { getUser } = getKindeServerSession();
   const authUser = await getUser();
   if (!authUser?.email) redirect("/");
+
+  const types = formData.getAll("contactType") as string[];
+  const links = formData.getAll("contactLink") as string[];
+
+  const contact = types
+    .map((type, i) => ({
+      type: type.trim(),
+      link: links[i].trim(),
+    }))
+    .filter(({ type, link }) => type && link);
 
   const [dbUser] = await db
     .select()
@@ -31,7 +41,7 @@ async function updateProfile(formData: FormData) {
 
   await db
     .update(usersTable)
-    .set({ name, bio, techTags })
+    .set({ name, bio, techTags, contact })
     .where(eq(usersTable.id, dbUser.id));
 
   revalidatePath(`/profile/${dbUser.username}`);
@@ -98,6 +108,8 @@ export default async function ProfileSettingsPage() {
             className="input input-bordered w-full"
           />
         </div>
+
+        <ContactFields initial={user.contact} />
 
         <div className="flex gap-4">
           <button type="submit" className="btn btn-primary">

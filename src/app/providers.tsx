@@ -2,7 +2,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
+import { KindeProvider, useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (

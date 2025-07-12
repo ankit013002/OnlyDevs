@@ -1,0 +1,1 @@
+ALTER TABLE "postings_table" ADD COLUMN "roster" jsonb DEFAULT '[]' NOT NULL;

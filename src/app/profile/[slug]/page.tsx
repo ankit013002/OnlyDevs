@@ -21,7 +21,6 @@ export default async function ProfilePage({ params }: PageProps) {
   const user = await retrieveUser(slug);
   if (!user) notFound();
   const currUser = await retrieveUserFromKinde();
-  console.log(currUser);
 
   const postings = await db
     .select()

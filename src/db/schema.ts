@@ -27,6 +27,10 @@ export const usersTable = pgTable("users_table", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   bio: text("bio"),
+  contact: jsonb("contact")
+    .$type<{ type: string; link: string }[]>()
+    .notNull()
+    .default(sql`'[]'`),
   techTags: jsonb("tech_tags")
     .$type<string[]>()
     .notNull()
@@ -45,6 +49,10 @@ export const postingsTable = pgTable("postings_table", {
     .notNull()
     .default(sql`'[]'`),
   rolesNeeded: integer("roles_needed").notNull().default(1),
+  roster: jsonb("roster")
+    .$type<string[]>()
+    .notNull()
+    .default(sql`'[]'`),
   status: postingStatusEnum("status").notNull().default("open"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")

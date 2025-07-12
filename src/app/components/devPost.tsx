@@ -36,7 +36,7 @@ const DevPost = ({ post }: PostingsListProps) => {
         ))}
       </div>
       <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-        <span>Roles: {post.rolesNeeded}</span>
+        <span>Roles: {post.rolesNeeded - post.roster.length}</span>
         <span>Status: {post.status.replace("_", " ")}</span>
       </div>
       <p className="mt-4 text-xs text-gray-500 dark:text-gray-600">
