@@ -6,6 +6,7 @@ import { db } from "@/db/database";
 import { usersTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
+import { LiaLinkSolid } from "react-icons/lia";
 
 async function updateProfile(formData: FormData) {
   "use server";
@@ -14,8 +15,11 @@ async function updateProfile(formData: FormData) {
   const authUser = await getUser();
   if (!authUser?.email) redirect("/");
 
-  const types = formData.getAll("contactType") as string[];
-  const links = formData.getAll("contactLink") as string[];
+  let types = formData.getAll("contactType") as string[];
+  let links = formData.getAll("contactLink") as string[];
+
+  links = links.filter((link) => link !== "");
+  types = types.filter((type, index) => index < links.length);
 
   const contact = types
     .map((type, i) => ({

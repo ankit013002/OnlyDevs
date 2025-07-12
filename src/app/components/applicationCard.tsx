@@ -2,9 +2,29 @@
 
 import { ApplicationWithUser } from "@/db/retrieveApplicationsByPostId";
 import Link from "next/link";
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { SelectUser } from "@/db/schema";
+import React, { useState } from "react";
+import { MdEmail } from "react-icons/md";
+import { FaDiscord, FaPhone, FaTwitter } from "react-icons/fa";
+import { FiLink } from "react-icons/fi";
+import { SiLinkedin } from "react-icons/si";
+
+type Contact = { type: string; link: string };
+
+type ContactOption = {
+  type: Contact["type"];
+  Icon: React.FC<React.SVGProps<SVGSVGElement>>;
+};
+
+const CONTACT_OPTIONS: ContactOption[] = [
+  { type: "Email", Icon: MdEmail },
+  { type: "Discord", Icon: FaDiscord },
+  { type: "Phone", Icon: FaPhone },
+  { type: "LinkedIn", Icon: SiLinkedin },
+  { type: "Twitter", Icon: FaTwitter },
+  { type: "Website", Icon: FiLink },
+];
 
 interface ApplicationCardInterface {
   application: ApplicationWithUser;
@@ -27,6 +47,10 @@ const ApplicationCard = ({
     console.log("Decline clicked for", application.applications_table.id);
     setExtendApp(false);
   };
+
+  const Icon = modeOfContact
+    ? CONTACT_OPTIONS.find((opt) => opt.type == modeOfContact)
+    : undefined;
 
   if (expandApp) {
     return (
@@ -67,25 +91,31 @@ const ApplicationCard = ({
           <div className="flex items-center">
             <div className="dropdown dropdown-bottom dropdown-center">
               <div tabIndex={0} role="button" className="btn m-1">
-                {modeOfContact ? modeOfContact : "Contact"}
+                {Icon ? <Icon.Icon /> : "Contact"}
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                className="dropdown-content menu bg-base-100 rounded-box z-1 p-2 min-w-36 shadow-sm  w-fit"
               >
-                {currUser.contact.map((contact, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => setModeOfContact(contact.type)}
-                      className="btn btn-ghost"
-                    >
-                      {contact.type}
-                    </button>
-                  </li>
-                ))}
+                {currUser.contact.map((contact, index) => {
+                  const icon = CONTACT_OPTIONS.find(
+                    (opt) => opt.type == contact.type
+                  );
+                  if (icon)
+                    return (
+                      <li key={index}>
+                        <button
+                          onClick={() => setModeOfContact(contact.type)}
+                          className="btn btn-ghost"
+                        >
+                          <icon.Icon className="h-5 w-5" />
+                        </button>
+                      </li>
+                    );
+                })}
                 <li>
                   <Link className="btn btn-ghost" href={"/profileSettings"}>
-                    Add Contact Method
+                    Add Contact
                   </Link>
                 </li>
               </ul>
